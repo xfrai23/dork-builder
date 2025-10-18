@@ -1,14 +1,14 @@
 # Google Dork Builder
 
-Página estática para construir consultas avanzadas (Google Dorks).
-Uso responsable: solo investigación pública y auditorías autorizadas.
+Static page for building advanced queries (Google Dorks).
+Responsible use: public research and authorized audits only.
 
-## Cómo usar
-1. Abre `index.html` en tu navegador.
-2. Escribe palabras clave, dominio y/o filetype.
-3. Pulsa "Construir dork" y luego "Abrir en Google" para lanzar la búsqueda manualmente.
+## How to use
+1. Open `index.html` in your browser.
+2. Enter keywords, domain, and/or filetype.
+3. Click "Build Dork" and then "Open in Google" to launch the search manually.
 
-## Deploy en GitHub Pages
-1. Crea un repo en GitHub y sube estos archivos.
-2. En Settings → Pages, pon la rama `main` y carpeta `/ (root)`.
-3. Accede a `https://TU_USUARIO.github.io/REPO_NAME/`.
+## Deploy to GitHub Pages
+1. Create a repo on GitHub and upload these files.
+2. In Settings → Pages, set the `main` branch and `/ (root)` folder.
+3. Go to `https://YOUR_USER.github.io/REPO_NAME/`.
