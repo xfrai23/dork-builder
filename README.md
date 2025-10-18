@@ -1,7 +1,6 @@
 # Google Dork Builder
 
 Static page for building advanced queries (Google Dorks).
-Responsible use: public research and authorized audits only.
 
 ## How to use
 1. Open `index.html` in your browser.
