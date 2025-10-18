@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Constructor de Google Dorks — Aprende con ética</title>
+  <style>
+    :root{font-family:Inter,system-ui,Segoe UI,Arial,sans-serif;color:#0b1220}
+    body{margin:0;padding:24px;background:#f6f8fb}
+    .card{max-width:900px;margin:18px auto;padding:18px;background:#fff;border-radius:12px;box-shadow:0 6px 18px rgba(11,18,32,0.06)}
+    h1{margin:0 0 6px;font-size:20px}
+    p.lead{margin:0 0 14px;color:#374151}
+    .grid{display:grid;grid-template-columns:1fr 280px;gap:16px}
+    label{display:block;margin:8px 0 4px;font-weight:600;font-size:13px}
+    input[type=text], select, textarea{width:100%;padding:8px 10px;border:1px solid #d1d5db;border-radius:8px;font-size:14px}
+    textarea{height:90px;resize:vertical}
+    .operators{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+    .op{background:#eef2ff;color:#3730a3;padding:6px 10px;border-radius:8px;cursor:pointer;font-size:13px}
+    .preview{background:#0f1724;color:#fff;padding:10px;border-radius:8px;word-break:break-word}
+    .actions{display:flex;gap:8px;margin-top:12px}
+    button{padding:10px 12px;border-radius:8px;border:0;cursor:pointer;font-weight:600}
+    .btn-primary{background:#0b84ff;color:#fff}
+    .btn-ghost{background:#eef2f6;color:#0b1220}
+    .muted{font-size:12px;color:#6b7280;margin-top:12px}
+    footer{margin-top:12px;font-size:13px;color:#6b7280}
+    .warning{background:#fff4f4;border:1px solid #fecaca;color:#7f1d1d;padding:10px;border-radius:8px;margin-top:12px}
+    @media (max-width:880px){.grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="card" role="main">
+    <h1>Constructor de Google Dorks</h1>
+    <p class="lead">Arma consultas avanzadas para <strong>investigación pública</strong> y auditorías autorizadas. Aprende los operadores, prueba con tus propios dominios y respeta la ley.</p>
+
+    <div class="grid">
+      <div>
+        <label for="queryFree">Términos / Frases (palabras clave)</label>
+        <input id="queryFree" type="text" placeholder='ej: "informe seguridad" vulnerabilidad' />
+
+        <label for="site">Site (opcional)</label>
+        <input id="site" type="text" placeholder='ej: example.com  — deja vacío para todo Google' />
+
+        <label for="filetype">Filetype (opcional)</label>
+        <input id="filetype" type="text" placeholder='ej: pdf, docx, xlsx' />
+
+        <label for="intext">intext: (opcional)</label>
+        <input id="intext" type="text" placeholder='ej: contraseña, credenciales, API_KEY (usar solo con autorización)' />
+
+        <label for="intitle">intitle: (opcional)</label>
+        <input id="intitle" type="text" placeholder='ej: "index of", login' />
+
+        <label for="advanced">Operadores adicionales (puedes combinarlos)</label>
+        <textarea id="advanced" placeholder='ej: inurl:admin -site:github.com "confidencial"'></textarea>
+
+        <div style="margin-top:10px">
+          <div style="font-weight:700;margin-bottom:6px">Insertar operador rápido</div>
+          <div class="operators" id="ops">
+            <div class="op" data-op='site:'>site:</div>
+            <div class="op" data-op='filetype:'>filetype:</div>
+            <div class="op" data-op='inurl:'>inurl:</div>
+            <div class="op" data-op='intitle:'>intitle:</div>
+            <div class="op" data-op='intext:'>intext:</div>
+            <div class="op" data-op='cache:'>cache:</div>
+            <div class="op" data-op='related:'>related:</div>
+            <div class="op" data-op='allinurl:'>allinurl:</div>
+            <div class="op" data-op='allintitle:'>allintitle:</div>
+            <div class="op" data-op='-'>- (excluir)</div>
+            <div class="op" data-op='" " '>" " (frase)</div>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button id="btnBuild" class="btn-primary">Construir dork</button>
+          <button id="btnCopy" class="btn-ghost">Copiar a portapapeles</button>
+          <button id="btnSearch" class="btn-primary" style="background:#0b8a5f">Abrir en Google</button>
+        </div>
+
+        <div class="muted">Sugerencia: prueba primero con tu propio dominio (site:tudominio.com) para ver lo que Google indexa públicamente.</div>
+
+        <div class="warning" role="alert">
+          <strong>Aviso legal y ético:</strong> Usá esta herramienta solo para investigación pública, validación de seguridad <em>con autorización</em>, o consumo de información pública. No ayudo a encontrar o explotar vulnerabilidades, ni a vulnerar sistemas. Consultá la normativa local antes de realizar acciones.
+        </div>
+      </div>
+
+      <aside>
+        <label>Vista previa de la consulta</label>
+        <div class="preview" id="preview">(aún no hay dork)</div>
+
+        <label style="margin-top:12px">Explicación rápida</label>
+        <div style="font-size:13px;color:#374151">
+          <ul>
+            <li><strong>site:</strong> limita resultados a un dominio (ej: <code>site:gov.ar</code>).</li>
+            <li><strong>filetype:</strong> busca tipos de archivo públicos (ej: <code>filetype:pdf</code>).</li>
+            <li><strong>inurl:</strong> busca palabras en la URL.</li>
+            <li><strong>intitle:</strong> busca palabras en el título de la página.</li>
+            <li><strong>-</strong> excluye términos (ej: <code>-github.com</code>).</li>
+          </ul>
+        </div>
+
+        <label style="margin-top:8px">Ejemplos seguros</label>
+        <div style="font-size:13px;color:#374151">
+          <ol>
+            <li><code>site:midominio.com filetype:pdf "informe anual"</code> — buscar PDFs públicos en tu sitio.</li>
+            <li><code>site:edu.ar "tesis" filetype:pdf</code> — encontrar tesis universitarias públicas.</li>
+            <li><code>site:gov.ar "licitación" filetype:pdf</code> — documentos públicos de licitaciones.</li>
+          </ol>
+        </div>
+
+        <footer>
+          <strong>Atención:</strong> no automatices scraping de Google sin revisar TOS. Esta página solo construye la cadena de búsqueda.
+        </footer>
+      </aside>
+    </div>
+  </div>
+
+  <script>
+    // Elementos
+    const qFree = document.getElementById('queryFree');
+    const site = document.getElementById('site');
+    const filetype = document.getElementById('filetype');
+    const intext = document.getElementById('intext');
+    const intitle = document.getElementById('intitle');
+    const advanced = document.getElementById('advanced');
+    const preview = document.getElementById('preview');
+    const btnBuild = document.getElementById('btnBuild');
+    const btnCopy = document.getElementById('btnCopy');
+    const btnSearch = document.getElementById('btnSearch');
+    const ops = document.getElementById('ops');
+
+    function escapeForPreview(s){
+      return s ? s.trim() : '';
+    }
+
+    function buildDork(){
+      const parts = [];
+      const free = escapeForPreview(qFree.value);
+      if(free) parts.push(free);
+      const s = escapeForPreview(site.value);
+      if(s) parts.push('site:'+s);
+      const f = escapeForPreview(filetype.value);
+      if(f) parts.push('filetype:'+f);
+      const it = escapeForPreview(intext.value);
+      if(it) parts.push('intext:'+it);
+      const tit = escapeForPreview(intitle.value);
+      if(tit) parts.push('intitle:'+tit);
+      const adv = escapeForPreview(advanced.value);
+      if(adv) parts.push(adv);
+      const final = parts.join(' ').replace(/\\s+/g,' ').trim();
+      preview.textContent = final || '(consulta vacía)';
+      return final;
+    }
+
+    btnBuild.addEventListener('click', ()=> buildDork());
+
+    btnCopy.addEventListener('click', async ()=>{
+      const text = buildDork();
+      if(!text){ alert('Construí primero la consulta.'); return; }
+      try{
+        await navigator.clipboard.writeText(text);
+        btnCopy.textContent = 'Copiado ✅';
+        setTimeout(()=> btnCopy.textContent = 'Copiar a portapapeles',1500);
+      }catch(e){
+        alert('No se pudo copiar. Copialo manualmente:\\n\\n' + text);
+      }
+    });
+
+    btnSearch.addEventListener('click', ()=>{
+      const q = buildDork();
+      if(!q){ alert('Construí primero la consulta.'); return; }
+      const url = 'https://www.google.com/search?q=' + encodeURIComponent(q);
+      window.open(url, '_blank', 'noopener');
+    });
+
+    // Quick operator insertion into "advanced"
+    ops.addEventListener('click', (ev)=>{
+      const op = ev.target.closest('.op');
+      if(!op) return;
+      const token = op.dataset.op || '';
+      const ta = advanced;
+      const start = ta.selectionStart || ta.value.length;
+      const before = ta.value.slice(0,start);
+      const after = ta.value.slice(start);
+      const insertion = token;
+      ta.value = before + insertion + after;
+      ta.focus();
+      ta.selectionStart = start + insertion.length;
+      ta.selectionEnd = ta.selectionStart;
+    });
+
+    // live build on change
+    [qFree,site,filetype,intext,intitle,advanced].forEach(el=>{
+      el.addEventListener('input', buildDork);
+    });
+
+    // inicial
+    buildDork();
+  </script>
+</body>
+</html>
